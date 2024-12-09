@@ -61,4 +61,12 @@ public class SystemService {
     public Set<Person> findAllPeople() {
         return systemRepository.findAllPeople();
     }
+
+    public Set<Task> findAllTasks() {
+        return systemRepository.findAllTasks();
+    }
+
+    public Task getTaskById(Long taskId) {
+        return systemRepository.getTaskById(taskId);
+    }
 }

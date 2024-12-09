@@ -3,7 +3,9 @@ package org.example.jdbccap15.controller;
 
 import org.example.jdbccap15.controller.io.SavePersonRequest;
 import org.example.jdbccap15.controller.io.SaveTaskRequest;
+import org.example.jdbccap15.controller.io.UpdateTaskStatusRequest;
 import org.example.jdbccap15.model.Person;
+import org.example.jdbccap15.model.Task;
 import org.example.jdbccap15.model.TaskStatus;
 import org.example.jdbccap15.service.SystemService;
 import org.example.jdbccap15.service.io.GetTasksByAssigneeId;
@@ -28,6 +30,19 @@ public class SystemController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/tasks")
+    public ResponseEntity<Set<Task>> findAllTaskStatuses() {
+        Set<Task> tasks = systemService.findAllTasks();
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/tasks/{taskId}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Long taskId) {
+        Task task = systemService.getTaskById(taskId);
+        return task != null ? ResponseEntity.ok(task) : ResponseEntity.notFound().build();
+    }
+
+
     @GetMapping("/person/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
         Person person = systemService.getPersonById(id);
@@ -46,21 +61,21 @@ public class SystemController {
         return ResponseEntity.ok(people);
     }
 
-    @GetMapping("/task/assignee/{taskId}")
+    @GetMapping("/assignee/tasks/{taskId}")
     public ResponseEntity<Person> getAssigneeByTaskId(@PathVariable Long taskId) {
         Person assignee = systemService.getAssigneeByTaskId(taskId);
         return assignee != null ? ResponseEntity.ok(assignee) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/task")
+    @PostMapping("/tasks")
     public ResponseEntity<Void> saveNewTask(@RequestBody SaveTaskRequest request) {
         systemService.saveNewTask(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/task/{taskId}/status")
-    public ResponseEntity<Void> updateTaskStatus(@PathVariable Long taskId, @RequestParam TaskStatus newStatus) {
-        systemService.updateTaskStatus(taskId, newStatus);
+    @PutMapping("/tasks/{taskId}/status")
+    public ResponseEntity<Void> updateTaskStatus(@PathVariable Long taskId, @RequestBody UpdateTaskStatusRequest request) {
+        systemService.updateTaskStatus(taskId, TaskStatus.valueOf(request.newStatus()));
         return ResponseEntity.ok().build();
     }
 }

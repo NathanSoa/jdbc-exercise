@@ -16,4 +16,6 @@ public interface SystemRepository {
     void savePerson(Person person);
     void saveNewTask(Task task, Long assigneeId, Long reporterId);
     void updateTaskStatus(Long taskId, TaskStatus newStatus);
+    Set<Task> findAllTasks();
+    Task getTaskById(Long taskId);
 }
