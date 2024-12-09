@@ -13,7 +13,7 @@ public interface SystemRepository {
     Set<Task> getTasksByAssigneeId(Long id);
     Set<Person> findAllPeople();
     Person getAssigneeByTaskId(Long taskId);
-
+    void savePerson(Person person);
     void saveNewTask(Task task, Long assigneeId, Long reporterId);
     void updateTaskStatus(Long taskId, TaskStatus newStatus);
 }

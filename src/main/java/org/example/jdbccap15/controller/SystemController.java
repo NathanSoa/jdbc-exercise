@@ -1,6 +1,7 @@
 package org.example.jdbccap15.controller;
 
 
+import org.example.jdbccap15.controller.io.SavePersonRequest;
 import org.example.jdbccap15.controller.io.SaveTaskRequest;
 import org.example.jdbccap15.model.Person;
 import org.example.jdbccap15.model.TaskStatus;
@@ -21,6 +22,11 @@ public class SystemController {
         this.systemService = systemService;
     }
 
+    @PostMapping("/person")
+    public ResponseEntity<Void> saveNewPerson(@RequestBody SavePersonRequest request) {
+        systemService.saveNewPerson(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     @GetMapping("/person/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {

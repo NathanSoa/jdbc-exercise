@@ -1,7 +1,9 @@
 package org.example.jdbccap15.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.jdbccap15.controller.io.SavePersonRequest;
 import org.example.jdbccap15.controller.io.SaveTaskRequest;
+import org.example.jdbccap15.mapper.MapSavePersonRequestToPerson;
 import org.example.jdbccap15.mapper.MapTasksToFindTasksByPersonOut;
 import org.example.jdbccap15.model.Person;
 
@@ -15,12 +17,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SystemService {
     private final SystemRepository systemRepository;
 
+    public SystemService(SystemRepository systemRepository) {
+        this.systemRepository = systemRepository;
+    }
+
     public void updateTaskStatus(Long taskId, TaskStatus newStatus) {
         systemRepository.updateTaskStatus(taskId, newStatus);
+    }
+
+    public void saveNewPerson(SavePersonRequest request) {
+        systemRepository.savePerson(MapSavePersonRequestToPerson.map(request));
     }
 
     public void saveNewTask(SaveTaskRequest request) {
