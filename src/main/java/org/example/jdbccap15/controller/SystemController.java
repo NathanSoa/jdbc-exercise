@@ -40,7 +40,7 @@ public class SystemController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/people")
+    @GetMapping("/person")
     public ResponseEntity<Set<Person>> findAllPeople() {
         Set<Person> people = systemService.findAllPeople();
         return ResponseEntity.ok(people);
